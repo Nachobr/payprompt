@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSignTypedData, useReadContract, useChainId } from 'wagmi';
-import { MNEE_CONTRACT, ERC20_ABI, PERMIT_TYPES } from '../lib/wagmi';
+import { MNEE_CONTRACT, VAULT_ADDRESS, ERC20_ABI, PERMIT_TYPES } from '../lib/wagmi';
 import { processGaslessDeposit } from '../lib/supabase';
 import { parseUnits } from 'viem';
 
@@ -10,7 +10,6 @@ interface TopUpModalProps {
   onSuccess: () => void;
 }
 
-const VAULT_ADDRESS = '0x0000000000000000000000000000000000000001'; // Placeholder vault
 
 export function TopUpModal({ address, onClose, onSuccess }: TopUpModalProps) {
   const [amount, setAmount] = useState('1.0');
@@ -97,7 +96,7 @@ export function TopUpModal({ address, onClose, onSuccess }: TopUpModalProps) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
-      
+
       <div className="relative w-full max-w-md rounded-2xl bg-slate-800 border border-slate-700 shadow-xl">
         <div className="p-6 border-b border-slate-700">
           <div className="flex items-center justify-between">
@@ -133,11 +132,10 @@ export function TopUpModal({ address, onClose, onSuccess }: TopUpModalProps) {
                   <button
                     key={preset}
                     onClick={() => setAmount(preset)}
-                    className={`py-2 px-3 rounded-lg text-sm font-medium transition-colors ${
-                      amount === preset
+                    className={`py-2 px-3 rounded-lg text-sm font-medium transition-colors ${amount === preset
                         ? 'bg-emerald-500 text-white'
                         : 'bg-slate-700/50 text-slate-300 hover:bg-slate-700'
-                    }`}
+                      }`}
                   >
                     {preset}
                   </button>

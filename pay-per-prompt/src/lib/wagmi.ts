@@ -1,15 +1,18 @@
 import { getDefaultConfig } from '@rainbow-me/rainbowkit';
-import { base, mainnet } from 'viem/chains';
+import { base, mainnet, sepolia } from 'viem/chains';
 
 export const config = getDefaultConfig({
   appName: 'MNEE',
   projectId: '95103afe61b99f673d28f4ba71966f84',
-  chains: [base, mainnet],
+  chains: [base, mainnet, sepolia],
   ssr: false,
 });
 
-// MNEE Token Contract
-export const MNEE_CONTRACT = '0x8ccedbAe4916b79da7F3F612EfB2EB93A2bFB6cF' as const;
+// MNEE Token Contract (Using Sepolia Mock: 0xf125d08c35635e2c4ee0d968667e44a29048138b)
+export const MNEE_CONTRACT = '0xf125d08c35635e2c4ee0d968667e44a29048138b' as const;
+
+// MNEE Vault Contract (Update this after Step 2 of DEPLOYMENT.md)
+export const VAULT_ADDRESS = '0x768ed3886138269220356238F66cD701dE981B3d' as const;
 
 // ERC20 ABI for balanceOf and permit
 export const ERC20_ABI = [

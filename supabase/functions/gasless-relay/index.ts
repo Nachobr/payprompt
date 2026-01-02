@@ -1,10 +1,10 @@
 // Gasless MNEE Deposit Relayer using EIP-2612 Permit
 // Accepts permit signature, submits permit + transferFrom to MNEE contract on Base
 
-const MNEE_CONTRACT = "0x8ccedbAe4916b79da7F3F612EfB2EB93A2bFB6cF";
-const VAULT_ADDRESS = Deno.env.get("VAULT_ADDRESS") || MNEE_CONTRACT; // Default to contract itself
+const MNEE_CONTRACT = Deno.env.get("MNEE_CONTRACT") || "0x8ccedbAe4916b79da7F3F612EfB2EB93A2bFB6cF";
+const VAULT_ADDRESS = Deno.env.get("VAULT_ADDRESS") || MNEE_CONTRACT;
 const RPC_URL = Deno.env.get("RPC_URL") || "https://mainnet.base.org";
-const CHAIN_ID = 8453; // Base mainnet
+const CHAIN_ID = Number(Deno.env.get("CHAIN_ID")) || 8453; // Default to Base Mainnet
 
 // Pre-computed function selectors
 const PERMIT_SELECTOR = "0xd505accf";
@@ -118,10 +118,10 @@ Deno.serve(async (req) => {
 
         // Get nonce
         const nonce = await rpcCall("eth_getTransactionCount", [relayerAddress, "latest"]);
-        
+
         // Get gas price
         const gasPrice = await rpcCall("eth_gasPrice", []);
-        
+
         // Get max priority fee
         let maxPriorityFee = "0x59682f00"; // 1.5 gwei default
         try {
@@ -132,7 +132,7 @@ Deno.serve(async (req) => {
 
         // Build permit transaction
         const permitData = buildPermitData(owner, targetSpender, valueBI, deadlineBI, v, r, s);
-        
+
         // Estimate gas for permit
         const permitGas = await rpcCall("eth_estimateGas", [{
           from: relayerAddress,
@@ -155,7 +155,7 @@ Deno.serve(async (req) => {
 
         // For real implementation, sign with private key and send
         // txHash = await rpcCall("eth_sendRawTransaction", [signedTx]);
-        
+
         // Fallback: Use eth_sendTransaction if relayer is unlocked node
         txHash = await rpcCall("eth_sendTransaction", [permitTx]);
         onChain = true;
@@ -213,8 +213,8 @@ Deno.serve(async (req) => {
       txHash,
       newBalance: result.new_balance,
       onChain,
-      message: onChain 
-        ? "Deposit confirmed on-chain" 
+      message: onChain
+        ? "Deposit confirmed on-chain"
         : "Demo deposit processed (configure RELAYER_PRIVATE_KEY for on-chain)"
     }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" }

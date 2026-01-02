@@ -4,9 +4,9 @@ This guide walks you through deploying the `MNEEVault.sol` smart contract to the
 
 ## Prerequisites
 
-1.  **MetaMask**: Installed and connected to the **Base Mainnet**.
-2.  **MNEE Tokens**: You need valid MNEE tokens (`0x8ccedbAe4916b79da7F3F612EfB2EB93A2bFB6cF`) for testing.
-3.  **ETH on Base**: A small amount of ETH for gas fees to deploy the contract.
+1.  **MetaMask**: Installed and connected to the **Sepolia Testnet**.
+2.  **MNEE Tokens**: Use your MockMNEE tokens (`0xf125d08c35635e2c4ee0d968667e44a29048138b`) on Sepolia.
+3.  **ETH on Sepolia**: A small amount of Sepolia ETH for gas fees to deploy the contract.
 4.  **Relayer Wallet**: A dedicated wallet address (private key) that will act as the "Relayer" for the backend.
 
 ---
@@ -38,7 +38,7 @@ The "Relayer" is the backend service that executes gasless transactions on behal
     *   Environment: Select **"Injected Provider - MetaMask"**.
     *   Verify that your MetaMask pops up and is connected to **Base**.
     *   **Constructor Arguments**:
-        *   `_mneeToken`: `0x8ccedbAe4916b79da7F3F612EfB2EB93A2bFB6cF` (Official MNEE Address on Base).
+        *   `_mneeToken`: `0xf125d08c35635e2c4ee0d968667e44a29048138b` (Your MockMNEE Address on Sepolia).
         *   `_relayer`: Paste your **Relayer Wallet Address** from Step 1.
     *   Click **Transact** (Deploy).
     *   Confirm the transaction in MetaMask.
@@ -63,6 +63,14 @@ npx supabase secrets set RELAYER_ADDRESS="0xRelayerAddress..."
 
 # 3. Set the Relayer Private Key (So the backend can sign transactions)
 npx supabase secrets set RELAYER_PRIVATE_KEY="your_exported_private_key_here"
+
+# 4. Set Sepolia Network Config (MockMNEE + Sepolia RPC)
+npx supabase secrets set MNEE_CONTRACT="0xf125d08c35635e2c4ee0d968667e44a29048138b"
+npx supabase secrets set RPC_URL="https://ethereum-sepolia-rpc.publicnode.com"
+npx supabase secrets set CHAIN_ID="11155111"
+
+# 5. Deploy the updated code
+npx supabase functions deploy
 ```
 
 *Note: Ensure `npx supabase` is linked to your remote project (`padmuyarkazfjxtjiohl`).*
