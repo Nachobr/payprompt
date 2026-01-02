@@ -39,5 +39,5 @@ I deepened my understanding of EIP-2612 permits, SIWE verification flows, and ho
 - **Languages**: TypeScript, HTML, CSS, Solidity
 - **Frameworks**: React, Vite, Deno
 - **Platforms/Cloud**: Supabase, Base Network, Reown (WalletConnect)
-- **APIs**: OpenAI API, Alchemy/Infura RPCs
+- **APIs**: GROQ API, Alchemy/Infura RPCs
 - **Libraries**: RainbowKit, Wagmi, viem, Tailwind CSS, Shadcn UI

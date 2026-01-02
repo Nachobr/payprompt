@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { deductCredits } from '../lib/supabase';
+import { processPrompt } from '../lib/supabase';
 
 interface PromptWallProps {
   address: string;
@@ -31,17 +31,15 @@ export function PromptWall({ address, creditBalance, onTopUp, onBalanceChange }:
     setError('');
 
     try {
-      // Deduct credits first
-      const result = await deductCredits(address, PRICE_PER_PROMPT);
-      
+      // Call the edge function which handles credits AND AI
+      const result = await processPrompt(address, prompt);
+
       if (!result.success) {
-        throw new Error(result.error || 'Failed to deduct credits');
+        throw new Error(result.error || 'Failed to process prompt');
       }
 
-      // Simulate AI response (in production, call actual AI API)
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setResponse(`This is a simulated AI response to: "${prompt}"\n\nIn production, this would connect to your AI backend. The prompt cost ${PRICE_PER_PROMPT} MNEE.`);
-      
+      setResponse(result.response || 'No response received from AI');
+
       setPrompt('');
       onBalanceChange();
     } catch (err) {

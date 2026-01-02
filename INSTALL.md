@@ -72,7 +72,7 @@ The project uses hardcoded values for `supabaseUrl` and `supabaseAnonKey` in `sr
 ### Supabase Edge Functions
 Set the following secrets in your Supabase project:
 ```bash
-supabase secrets set OPENAI_API_KEY=your_key_here
+supabase secrets set GROQ_API_KEY=your_key_here
 supabase secrets set SUPABASE_URL=your_project_url
 supabase secrets set SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 ```

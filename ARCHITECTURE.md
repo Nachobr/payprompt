@@ -37,7 +37,7 @@ graph TD
     %% Prompt Flow
     UI -->|Prompt Request| Edge
     Edge -->|Deduct Credit| DB
-    Edge -->|Process LLM| OpenAI[AI Provider]
+    Edge -->|Process LLM| Groq[AI Provider]
     
     %% Payment Flow
     Wallet -->|Approve/Permit| RPC
