@@ -15,3 +15,6 @@ node_modules
 # Build outputs
 dist
 build
+
+# Supabase local temp files
+supabase/.temp/

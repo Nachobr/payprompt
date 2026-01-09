@@ -150,20 +150,37 @@ export async function getTransactions(walletAddress: string): Promise<Transactio
   return data || [];
 }
 
-// Process prompt via edge function (handles credits + AI)
-export async function processPrompt(walletAddress: string, prompt: string): Promise<{
+export interface PromptUsage {
+  inputTokens: number;
+  outputTokens: number;
+  model: string;
+}
+
+export interface ProcessPromptResult {
   success: boolean;
   response?: string;
   newBalance?: number;
+  cost?: number;
+  usage?: PromptUsage;
+  isFallback?: boolean;
+  executionModel?: string;
   error?: string;
-}> {
+}
+
+// Process prompt via edge function (handles credits + AI)
+export async function processPrompt(
+  walletAddress: string,
+  prompt: string,
+  modelId?: string
+): Promise<ProcessPromptResult> {
   const session = getSession();
 
   const response = await supabase.functions.invoke('process-prompt', {
     body: {
       walletAddress,
       prompt,
-      sessionId: session?.sessionId
+      sessionId: session?.sessionId,
+      modelId
     }
   });
 
@@ -171,7 +188,11 @@ export async function processPrompt(walletAddress: string, prompt: string): Prom
     return {
       success: true,
       response: response.data.response,
-      newBalance: response.data.newBalance
+      newBalance: response.data.newBalance,
+      cost: response.data.cost,
+      usage: response.data.usage,
+      isFallback: response.data.isFallback,
+      executionModel: response.data.executionModel
     };
   }
 

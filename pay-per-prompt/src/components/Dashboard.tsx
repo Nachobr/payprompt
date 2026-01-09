@@ -54,18 +54,18 @@ export function Dashboard({ address, session, onSignOut }: DashboardProps) {
                     </button>
                 </div>
 
-                <div className="md:col-span-2 p-6 rounded-2xl bg-slate-800/50 border border-slate-700/50">
-                    <h3 className="text-sm font-medium text-slate-400 mb-4">Recent Transactions</h3>
-                    <div className="space-y-3">
+                <div className="md:col-span-2 p-6 rounded-2xl bg-slate-800/50 border border-slate-700/50 flex flex-col h-[400px]">
+                    <h3 className="text-sm font-medium text-slate-400 mb-4 shrink-0">Recent Transactions</h3>
+                    <div className="space-y-3 overflow-y-auto pr-2 custom-scrollbar flex-1">
                         {transactions.length === 0 ? (
                             <p className="text-sm text-slate-500">No recent transactions</p>
                         ) : (
                             transactions.map(tx => (
-                                <div key={tx.id} className="flex items-center justify-between text-sm">
-                                    <span className={tx.type === 'deposit' ? 'text-emerald-400' : 'text-slate-300'}>
-                                        {tx.type === 'deposit' ? '+' : '-'}{tx.amount} MNEE
+                                <div key={tx.id} className="flex items-center justify-between text-sm p-2 rounded-lg hover:bg-slate-700/30 transition-colors">
+                                    <span className={tx.type === 'deposit' ? 'text-emerald-400 font-medium' : 'text-slate-300'}>
+                                        {tx.type === 'deposit' ? '+' : '-'}{Number(tx.amount).toFixed(6)} MNEE
                                     </span>
-                                    <span className="text-slate-500">{new Date(tx.created_at).toLocaleDateString()}</span>
+                                    <span className="text-slate-500 text-xs">{new Date(tx.created_at).toLocaleString()}</span>
                                 </div>
                             ))
                         )}
